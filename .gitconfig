@@ -3,3 +3,6 @@
 	email = mmeehan@utilant.com
 [push]
     default = simple
+
+[core]
+    autocrlf = input
