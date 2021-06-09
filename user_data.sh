@@ -15,6 +15,12 @@ NONROOT_USER=ubuntu
 export DEBIAN_FRONTEND=noninteractive
 
 apt-get -y update
+
+# Install zsh
+apt-get -y install zsh
+cp -p /etc/pam.d/chsh /etc/pam.d/chsh.backup
+sed -ri "s|auth( )+required( )+pam_shells.so|auth sufficient pam_shells.so|" /etc/pam.d/chsh
+
 apt-get -y install tmux
 
 # Install mount_volume script
