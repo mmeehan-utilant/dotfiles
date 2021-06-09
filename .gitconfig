@@ -5,4 +5,4 @@
     default = simple
 
 [core]
-    autocrlf = true
+    autocrlf = input
