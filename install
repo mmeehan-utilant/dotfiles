@@ -10,11 +10,13 @@
 set -x
 
 # Change shell to zsh
+printf "\nChanging shell to zsh and installing oh-my-zsh...\n"
 chsh -s $(which zsh)
 # Install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 # Copy over dotfiles from this repo
+printf "\nCopying dotfiles to $HOME...\n"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cat ${DIR}/.gitconfig >> ~/.gitconfig
 cat ${DIR}/.bash_aliases >> ~/.bash_aliases
@@ -23,6 +25,7 @@ rsync -az ${DIR}/.ssh ~/
 
 # Symlink all *.symlink files
 # TODO: Move other dotfiles to symlink setup
+printf "\nSymlinking dotfiles...\n"
 for SOURCE_FILE in $(find $(pwd) -name '*.symlink'); do
   LINK_FILE="$HOME/.$(basename ${SOURCE_FILE%.symlink})"
   ln -sv "$SOURCE_FILE" $LINK_FILE;
