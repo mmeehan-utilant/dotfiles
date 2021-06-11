@@ -4,7 +4,14 @@
 #                                             #
 #    This script, called by the EC2 user data #
 # at instance first launch, sets up the dev   #
-# environment. It is run as root.             #
+# environment. It is run as root, and will:   #
+# * Update the apt-get repository listings    #
+# * Install zsh                               #
+# * Install Python3 and pip if needed         #
+# * Install Emacs                             #
+# * Install pyenv and pyenv-virtualenv        #
+# * Install tmux                              #
+# * Install curl, htop, & unzip               #
 #                                             #
 ###############################################
 
@@ -13,7 +20,6 @@ set -euxo pipefail
 NONROOT_USER=ubuntu
 
 export DEBIAN_FRONTEND=noninteractive
-
 apt-get -y update
 
 # Install zsh
@@ -49,7 +55,6 @@ apt-get -y install \
 	htop \
 	tmux \
 	unzip
-
 
 unset DEBIAN_FRONTEND
 
