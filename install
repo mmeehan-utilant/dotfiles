@@ -9,7 +9,6 @@
 
 set -x
 
-# Install pyenv
 if [ ! -d ~/.pyenv ]
 then
 	# Install pyenv
@@ -36,18 +35,73 @@ else
 	pyenv rehash
 fi
 
+if ! hash jupyter
+then
+    # Install Jupyter NB & Lab into system python3
+    python3 -m pip install -U pip
+    python3 -m pip install -U \
+	autopep8 \
+	black \
+	ipython \
+	jupyter \
+	jupyter_contrib_nbextensions \
+	jupyter_nbextensions_configurator \
+	jupyterlab \
+	jupyterlab_code_formatter \
+	jupyterlab-git \
+	jupyterlab_latex \
+	nbdime \
 
-# Change shell to zsh
-printf "\nChanging shell to zsh and installing oh-my-zsh...\n"
+
+    # Rehash pyenv after installing python executables
+    pyenv rehash
+
+    # Install NodeJS and npm (prerequisites for Jupyter Lab extensions
+    curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+    sudo apt install nodejs
+    node --version
+    npm --version
+
+    # Install jupyter extensions
+    jupyter contrib nbextension install --sys-prefix
+    jupyter nbextensions_configurator enable --sys-prefix
+    jupyter nbextension enable --user toc2/main
+    jupyter nbextension enable --user code_prettify/autopep8
+    jupyter nbextension enable --py --sys-prefix  nbdime
+
+    jupyter labextension install --no-build @jupyterlab/git
+    jupyter labextension install --no-build @jupyterlab/toc
+    jupyter labextension install --no-build @jupyterlab/latex
+    jupyter labextension install --no-build @mflevine/jupyterlab_html
+    jupyter labextension install --no-build @ryantam626/jupyterlab_code_formatter
+    jupyter lab build
+    jupyter serverextension enable --sys-prefix --py jupyterlab
+    jupyter serverextension enable --sys-prefix --py jupyterlab_code_formatter
+    jupyter serverextension enable --sys-prefix --py jupyterlab_git
+    jupyter serverextension enable --sys-prefix --py jupyterlab_latex
+fi
+
+# Change shell to zsh and install oh-my-zsh
 chsh -s $(which zsh)
-# Install oh-my-zsh
 curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/zsh_install.sh
 chmod u+x ~/zsh_install.sh
 sh -c ~/zsh_install.sh && rm ~/zsh_install.sh
-
+if [ -e ~/.zshrc.pre-oh-my-zsh ]; then
+    cat ~/.zshrc.pre-oh-my-zsh >> ~/.zshrc
+fi
+cat >> ~/.zshrc <<-EOF
+	set -o magicequalsubst
+	if [ -f ~/.bash_aliases ]; then
+	    . ~/.bash_aliases
+	fi
+	if [ -f ~/.profile ]; then
+	   . ~/.profile
+	fi
+	export LC_CTYPE=en_US.UTF-8
+EOF
+sed -i 's/^ZSH_THEME="[^"]*"$/ZSH_THEME="agnoster"/' ~/.zshrc
 
 # Copy over dotfiles from this repo
-printf "\nCopying dotfiles to $HOME...\n"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cat ${DIR}/.gitconfig >> ~/.gitconfig
 cat ${DIR}/.bash_aliases >> ~/.bash_aliases
@@ -57,11 +111,11 @@ rsync -az ${DIR}/.ssh ~/
 
 # Symlink all *.symlink files
 # TODO: Move other dotfiles to symlink setup
-printf "\nSymlinking dotfiles...\n"
-for SOURCE_FILE in $(find $(pwd) -name '*.symlink'); do
-  LINK_FILE="$HOME/.$(basename ${SOURCE_FILE%.symlink})"
-  ln -sv "$SOURCE_FILE" $LINK_FILE;
-done
+# printf "\nSymlinking dotfiles...\n"
+# for SOURCE_FILE in $(find $(pwd) -name '*.symlink'); do
+#  LINK_FILE="$HOME/.$(basename ${SOURCE_FILE%.symlink})"
+#  ln -sv "$SOURCE_FILE" $LINK_FILE;
+#done
 
 exit 0
 
