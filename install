@@ -4,7 +4,11 @@
 #                                             #
 #    This script, called by an EC2 instance   #
 # at first launch, sets up the development    #
-# environment.                                #
+# environment. It is run as user, and will:   #
+# * Install Jupyter Notebook & Lab Extensions #
+# * Copy over dotfiles from this repo         #
+# * Add some aliases to /etc/zsh/zshenv       #
+#                                             #
 ###############################################
 
 set -x
@@ -86,36 +90,37 @@ chsh -s $(which zsh)
 curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/zsh_install.sh
 chmod u+x ~/zsh_install.sh
 sh -c ~/zsh_install.sh && rm ~/zsh_install.sh
-if [ -e ~/.zshrc.pre-oh-my-zsh ]; then
-    cat ~/.zshrc.pre-oh-my-zsh >> ~/.zshrc
-fi
-cat >> ~/.zshrc <<-EOF
-	set -o magicequalsubst
-	if [ -f ~/.bash_aliases ]; then
-	    . ~/.bash_aliases
-	fi
-	if [ -f ~/.profile ]; then
-	   . ~/.profile
-	fi
-	export LC_CTYPE=en_US.UTF-8
-EOF
-sed -i 's/^ZSH_THEME="[^"]*"$/ZSH_THEME="agnoster"/' ~/.zshrc
+#if [ -e ~/.zshrc.pre-oh-my-zsh ]; then
+#    cat ~/.zshrc.pre-oh-my-zsh >> ~/.zshrc
+#fi
+#cat >> ~/.zshrc <<-EOF
+#	set -o magicequalsubst
+#	if [ -f ~/.bash_aliases ]; then
+#	    . ~/.bash_aliases
+#	fi
+#	if [ -f ~/.profile ]; then
+#	   . ~/.profile
+#	fi
+#	export LC_CTYPE=en_US.UTF-8
+#EOF
+# sed -i 's/^ZSH_THEME="[^"]*"$/ZSH_THEME="agnoster"/' ~/.zshrc
 
 # Copy over dotfiles from this repo
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cat ${DIR}/.gitconfig >> ~/.gitconfig
 cat ${DIR}/.bash_aliases >> ~/.bash_aliases
 cat ${DIR}/.tmux.conf >> ~/.tmux.conf
+cat ${DIR}/.emacs >> ~/.emacs
 rsync -az ${DIR}/.ssh ~/
-
 
 # Symlink all *.symlink files
 # TODO: Move other dotfiles to symlink setup
-# printf "\nSymlinking dotfiles...\n"
-# for SOURCE_FILE in $(find $(pwd) -name '*.symlink'); do
-#  LINK_FILE="$HOME/.$(basename ${SOURCE_FILE%.symlink})"
-#  ln -sv "$SOURCE_FILE" $LINK_FILE;
-#done
+printf "\nSymlinking dotfiles...\n"
+  for SOURCE_FILE in $(find $(pwd) -name '*.symlink'); do
+  LINK_FILE="$HOME/.$(basename ${SOURCE_FILE%.symlink})"
+  ln -sv "$SOURCE_FILE" $LINK_FILE;
+done
+
 
 exit 0
 

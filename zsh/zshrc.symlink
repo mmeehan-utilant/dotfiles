@@ -1,7 +1,9 @@
 # Environment variables {
   # Path to dotfiles repo
   export DOTFILES="$HOME/.dotfiles"
+  export LC_CTYPE="en_US.UTF-8"
 # }
+
 
 
 # oh-my-zsh {
