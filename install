@@ -118,6 +118,10 @@ rsync -az ${DIR}/.ssh ~/
 printf "\nSymlinking dotfiles...\n"
 for SOURCE_FILE in $(find $(pwd) -name '*.symlink'); do
   LINK_FILE="$HOME/.$(basename ${SOURCE_FILE%.symlink})"
+  # Delete target link file before linking if it exists
+  if [ -e $LINK_FILE]; then
+    rm $LINK_FILE
+  fi
   ln -sv "$SOURCE_FILE" $LINK_FILE;
 done
 
