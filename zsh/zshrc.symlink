@@ -60,6 +60,7 @@
 
 # aliases {
   alias t="tmux attach || tmux"
+  alias jupids="ps -ef | grep jupyter-lab"
 
 # IP address detection
   if [ -z "$IP_ADDRESS" ]; then
