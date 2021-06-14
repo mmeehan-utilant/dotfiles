@@ -9,8 +9,8 @@ function iterm2_print_user_vars() {
 
 # IP address detection
 if [ -z "$IP_ADDRESS" ]; then
-  public_ip="$(curl -s http://instance-data/latest/meta-data/public-ipv4 | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')"
-  private_ip="$(curl -s http://instance-data/latest/meta-data/local-ipv4 | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')"
+  public_ip="$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4 | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')"
+  private_ip="$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4 | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')"
   if [ ".${public_ip}" != "." ]; then
     IP_ADDRESS=${public_ip};
   else
