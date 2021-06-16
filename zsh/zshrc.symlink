@@ -4,7 +4,13 @@
   export LC_CTYPE="en_US.UTF-8"
 # }
 
+# Include timestamps in history
+setopt EXTENDED_HISTORY
 
+# Functions {
+    # Search zsh history
+    histsearch() { fc -lim "*$@*" 1 }
+# }
 
 # oh-my-zsh {
   # Prevent loading https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/compfix.zsh
