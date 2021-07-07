@@ -94,4 +94,4 @@ setopt EXTENDED_HISTORY
     # Use GNU ls if available (for macOS: `brew install coreutils`)
     gdircolors &>/dev/null 2>&1 && eval `gdircolors $DOTFILES/zsh/dircolors.ansi-dark` && alias ls='gls --color=auto -hF'
     export GREP_COLOR='1;31'
-  # }
+# }
