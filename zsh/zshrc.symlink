@@ -67,6 +67,10 @@ setopt EXTENDED_HISTORY
 # aliases {
   alias t="tmux attach || tmux"
   alias jupids="ps -ef | grep jupyter-lab"
+  alias setclock="sudo hwclock --hctosys"
+  alias ecrlogin="aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 050247294295.dkr.ecr.us-east-1.amazonaws.com"
+
+# }
 
 # IP address detection
   if [ -z "$IP_ADDRESS" ]; then
