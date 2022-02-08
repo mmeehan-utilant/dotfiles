@@ -107,10 +107,10 @@ sh -c ~/zsh_install.sh && rm ~/zsh_install.sh
 
 # Copy over dotfiles from this repo
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cat ${DIR}/.gitconfig >> ~/.gitconfig
-cat ${DIR}/.bash_aliases >> ~/.bash_aliases
-cat ${DIR}/.tmux.conf >> ~/.tmux.conf
-cat ${DIR}/.emacs >> ~/.emacs
+#cat ${DIR}/.gitconfig >> ~/.gitconfig
+#cat ${DIR}/.bash_aliases >> ~/.bash_aliases
+#cat ${DIR}/.tmux.conf >> ~/.tmux.conf
+#cat ${DIR}/.emacs >> ~/.emacs
 rsync -az ${DIR}/.ssh ~/
 
 # Symlink all *.symlink files
