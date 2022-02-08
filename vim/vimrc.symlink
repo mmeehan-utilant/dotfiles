@@ -3,4 +3,4 @@
 :set expandtab
 :set nu
 :syntax on
-:set mouse=a                   
+:set mouse=a
