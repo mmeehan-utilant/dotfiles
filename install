@@ -111,18 +111,18 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #cat ${DIR}/.bash_aliases >> ~/.bash_aliases
 #cat ${DIR}/.tmux.conf >> ~/.tmux.conf
 #cat ${DIR}/.emacs >> ~/.emacs
-rsync -az ${DIR}/.ssh ~/
+#rsync -az ${DIR}/.ssh ~/
 
 # Symlink all *.symlink files
 # TODO: Move other dotfiles to symlink setup
-printf "\nSymlinking dotfiles...\n"
 for SOURCE_FILE in $(find $(pwd) -name '*.symlink'); do
   LINK_FILE="$HOME/.$(basename ${SOURCE_FILE%.symlink})"
   # Delete target link file before linking if it exists
-  if [ -e $LINK_FILE]; then
+  if [[ -f $LINK_FILE ]]; then
+    echo "Removing existing dotfile: " $LINK_FILE
     rm $LINK_FILE
   fi
-  ln -sv "$SOURCE_FILE" $LINK_FILE;
+  ln -sv $SOURCE_FILE $LINK_FILE;
 done
 
 
