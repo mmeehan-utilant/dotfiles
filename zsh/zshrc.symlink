@@ -7,7 +7,12 @@
 # }
 
 
-# Photo gallery keys
+# Pyenv
+eval "$(pyenv init -)"
+
+# homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 
 # Include timestamps in history
 setopt EXTENDED_HISTORY
@@ -73,8 +78,10 @@ setopt EXTENDED_HISTORY
   alias t="tmux attach || tmux"
   alias jupids="ps -ef | grep jupyter-lab"
   alias setclock="sudo hwclock --hctosys"
-  alias code="/mnt/c/Users/mmeehan/AppData/Local/Programs/Microsoft\ VS\ Code/Code.exe"
-  alias ecrlogin="aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 050247294295.dkr.ecr.us-east-1.amazonaws.com"
+  # when in wsl on windows, bleh
+  # alias code="/mnt/c/Users/mmeehan/AppData/Local/Programs/Microsoft\ VS\ Code/Code.exe"
+  alias ecrlogin="aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 050247294295.dkr.ecr.us-east-1.amazonaws.com"
+  alias ecrlogin-sudo="aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 050247294295.dkr.ecr.us-east-1.amazonaws.com"
 # }
 
 # IP address detection
@@ -95,15 +102,15 @@ setopt EXTENDED_HISTORY
 
 
  # dircolors {
-    autoload colors;
-    # Find the option for using colors in ls, depending on the version
-    ls --color -d . &>/dev/null 2>&1 && alias ls='ls --color=auto -F' || alias ls='ls -GF'
-    # Use dircolors if available
-    dircolors &>/dev/null 2>&1 && eval `dircolors $DOTFILES/zsh/dircolors.ansi-dark` || export LSCOLORS="Gxfxcxdxbxegedabagacad"
-    # Use GNU ls if available (for macOS: `brew install coreutils`)
-    gdircolors &>/dev/null 2>&1 && eval `gdircolors $DOTFILES/zsh/dircolors.ansi-dark` && alias ls='gls --color=auto -hF'
-    export GREP_COLOR='1;31'
-  # }
+ #   autoload colors;
+ #   # Find the option for using colors in ls, depending on the version
+ #   ls --color -d . &>/dev/null 2>&1 && alias ls='ls --color=auto -F' || alias ls='ls -GF'
+ #   # Use dircolors if available
+ #   dircolors &>/dev/null 2>&1 && eval `dircolors $DOTFILES/zsh/dircolors.ansi-dark` || export LSCOLORS="Gxfxcxdxbxegedabagacad"
+ #   # Use GNU ls if available (for macOS: `brew install coreutils`)
+ #   gdircolors &>/dev/null 2>&1 && eval `gdircolors $DOTFILES/zsh/dircolors.ansi-dark` && alias ls='gls --color=auto -hF'
+ #   export GREP_COLOR='1;31'
+ # # }
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
